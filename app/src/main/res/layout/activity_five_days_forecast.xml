@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <LinearLayout
+        android:id="@+id/MainBG"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/morning"
+        android:orientation="vertical"
+        android:padding="@dimen/main_screen_content_padding"
+        tools:context=".weather.MainActivity">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fiveDaysForecast"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</layout>
