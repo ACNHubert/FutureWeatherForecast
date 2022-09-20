@@ -1,4 +1,4 @@
-package eu.tutorials.futureweatherforecast.weather
+package eu.tutorials.futureweatherforecast.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -12,6 +12,7 @@ import android.icu.text.SimpleDateFormat
 import android.icu.util.TimeZone
 import android.location.Location
 import android.location.LocationManager
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -19,16 +20,13 @@ import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
 import android.util.Log
-import android.view.View
 import android.widget.Switch
 import android.widget.Toast
+import android.widget.VideoView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.databinding.BindingAdapter
 
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.*
 import com.google.gson.Gson
 import com.karumi.dexter.Dexter
@@ -38,8 +36,7 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import eu.tutorials.futureweatherforecast.R
 import eu.tutorials.futureweatherforecast.databinding.ActivityMainBinding
-import eu.tutorials.futureweatherforecast.futureForecast.FutureWeather
-import eu.tutorials.futureweatherforecast.models.WeatherResponse
+import eu.tutorials.futureweatherforecast.currentForecastModels.WeatherResponse
 import eu.tutorials.futureweatherforecast.network.WeatherService
 import eu.tutorials.futureweatherforecast.utils.Constants
 import retrofit.*
@@ -55,13 +52,22 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bindind: ActivityMainBinding
     internal lateinit var mySwitch : Switch
 
+
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindind = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+
+
+
         bindind.futureForecast.setOnClickListener{
+           Constants.LOCATION = bindind.tvName.text.toString()
              val intent = Intent(this@MainActivity, fiveDaysForecast::class.java)
+            startActivity(intent)
+        }
+        bindind.manageCity.setOnClickListener{
+            val intent = Intent(this@MainActivity, ManageCities::class.java)
             startActivity(intent)
         }
 
@@ -79,18 +85,20 @@ class MainActivity : AppCompatActivity() {
         mySwitch = bindind.nightMode as Switch
         mySwitch.setOnClickListener{
             if (mySwitch.isChecked){
-                bindind.MainBG.setBackgroundResource(R.drawable.night)
+                bindind.MainBG.setBackgroundResource(R.drawable.bgcloudynight)
                 bindind.nightMode.setTextColor(Color.WHITE)
+                bindind.tempText.setTextColor(Color.WHITE)
                 Toast.makeText(this,"Night mode is on",Toast.LENGTH_SHORT).show()
             } else {
-                bindind.MainBG.setBackgroundResource(R.drawable.morning)
+                bindind.MainBG.setBackgroundResource(R.drawable.bgmorning)
                 bindind.nightMode.setTextColor(Color.BLACK)
+                bindind.tempText.setTextColor(Color.BLACK)
                 Toast.makeText(this,"Night mode is off",Toast.LENGTH_SHORT).show()
             }
         }
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         mSharedPreferences = getSharedPreferences(Constants.PREFERENCE_NAME, Context.MODE_PRIVATE)
-        setupUI()
+        //setupUI()
 
         if (!isLocationEnabled()) {
             Toast.makeText(
@@ -137,6 +145,10 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+
+
+
     private fun isLocationEnabled(): Boolean {
         // This provides access to the system location services.
         val locationManager: LocationManager =

@@ -1,4 +1,4 @@
-package eu.tutorials.futureweatherforecast.futureForecast
+package eu.tutorials.futureweatherforecast.futureForecastModel
 
 
 import java.io.Serializable

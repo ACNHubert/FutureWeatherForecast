@@ -20,11 +20,15 @@
         android:theme="@style/Theme.FutureWeatherForecast"
         tools:targetApi="31">
         <activity
-            android:name=".weather.fiveDaysForecast"
+            android:name=".activity.ManageCities"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
-            android:name=".weather.MainActivity"
+            android:name=".activity.fiveDaysForecast"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".activity.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
