@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="myViewModel"
+            type="eu.tutorials.futureweatherforecast.models.CityViewModel"
+            />
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="15dp"
+        android:orientation="vertical"
+        android:background="@drawable/bgmorning"
+        tools:context=".MainActivity" >
+
+        <EditText
+            android:id="@+id/name_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_marginBottom="5dp"
+            android:ems="10"
+            android:text="@={myViewModel.inputName}"
+            android:hint="City name"
+            android:inputType="textPersonName"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/save_or_update_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="@{()->myViewModel.saveOrUpdate()}"
+                android:text="@={myViewModel.saveOrUpdateButtonText}"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:backgroundTint="#80000000" />
+
+            <Button
+                android:id="@+id/clear_all_or_delete_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="@{()->myViewModel.clearAllOrDelete()}"
+                android:text="@={myViewModel.clearAllOrDeleteButtonText}"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:backgroundTint="#80000000" />
+
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/city_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="487dp"
+            android:layout_margin="5dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/viewData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:text="View Forecast"
+                app:backgroundTint="#80000000" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>
