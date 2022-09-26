@@ -35,13 +35,13 @@ class ManageCities : AppCompatActivity() {
         initRecyclerView()
 
         binding.viewData.setOnClickListener(){
-            Constants.LOCATION = binding.nameText.text.toString()
-
+           MainActivity.LOCATION = binding.nameText.text.toString()
             val intent = Intent(this@ManageCities, MainActivity::class.java)
             startActivity(intent)
         }
 
     }
+
 
     private fun initRecyclerView(){
         binding.cityRecyclerView.layoutManager = LinearLayoutManager(this)
