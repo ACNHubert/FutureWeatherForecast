@@ -52,14 +52,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bindind: ActivityMainBinding
     internal lateinit var mySwitch : Switch
 
-    companion object {
-        var LOCATION = ""
-    }
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindind = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+
+
 
         bindind.futureForecast.setOnClickListener{
            Constants.LOCATION = bindind.tvName.text.toString()
@@ -266,12 +266,8 @@ class MainActivity : AppCompatActivity() {
             Log.e("Current Latitude", "$mLatitude")
             mLongitude = mLastLocation.longitude
             Log.e("Current Longitude", "$mLongitude")
-            if (LOCATION == ""){
-                getLocationWeatherDetails()
-            } else {
-                Constants.LOCATION = LOCATION
-                getLocationWeather()
-            }
+
+            getLocationWeatherDetails()
         }
     }
 
@@ -368,7 +364,7 @@ class MainActivity : AppCompatActivity() {
         return sdf.format(date)
     }
 
-     fun getLocationWeather() {
+    fun getLocationWeather() {
         if (Constants.isNetworkAvailable(this@MainActivity)) {
             val retrofit: Retrofit = Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
@@ -401,16 +397,16 @@ class MainActivity : AppCompatActivity() {
                         editor.putString(Constants.WEATHER_RESPONSE_DATA, weatherResponseJsonString)
                         editor.apply()
 
-//                        var location : String = weatherList.sys.country
-//                        if (location == "PH") {
+                        var location : String = weatherList.sys.country
+                        if (location == "PH") {
                             setupUI()
-//                        } else {
-//                            Toast.makeText(
-//                                this@MainActivity,
-//                                "Invalid City",
-//                                Toast.LENGTH_LONG
-//                            ).show()
-//                        }
+                        } else {
+                            Toast.makeText(
+                                this@MainActivity,
+                                "Invalid City",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
 
                     } else {
                         val sc = response.code()
@@ -418,11 +414,6 @@ class MainActivity : AppCompatActivity() {
                         when (sc) {
                             400 -> {
                                 Log.e("Error 400", "Bad Request")
-                                Toast.makeText(
-                                    this@MainActivity,
-                                    "Invalid City",
-                                    Toast.LENGTH_LONG
-                                ).show()
                             }
                             404 -> {
                                 Log.e("Error 404", "Not Found")
