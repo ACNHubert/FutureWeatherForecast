@@ -24,18 +24,18 @@ class ManageCities : AppCompatActivity() {
     private lateinit var cityViewModel: CityViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       // setContentView(R.layout.activity_manage_cities)
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_manage_cities)
+        // setContentView(R.layout.activity_manage_cities)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_manage_cities)
         val dao = CityDatabase.getInstance(application).cityDAO
         val repository = CityRepository(dao)
         val factory = CityViewModelFactory(repository)
-        cityViewModel = ViewModelProvider(this,factory)[CityViewModel::class.java]
-        binding.myViewModel= cityViewModel
+        cityViewModel = ViewModelProvider(this, factory)[CityViewModel::class.java]
+        binding.myViewModel = cityViewModel
         binding.lifecycleOwner = this
         initRecyclerView()
 
-        binding.viewData.setOnClickListener(){
-           MainActivity.LOCATION = binding.nameText.text.toString()
+        binding.viewData.setOnClickListener() {
+            MainActivity.LOCATION = binding.nameText.text.toString()
             val intent = Intent(this@ManageCities, MainActivity::class.java)
             startActivity(intent)
         }
@@ -43,21 +43,21 @@ class ManageCities : AppCompatActivity() {
     }
 
 
-    private fun initRecyclerView(){
+    private fun initRecyclerView() {
         binding.cityRecyclerView.layoutManager = LinearLayoutManager(this)
         displayCityList()
     }
 
 
-
-    private fun displayCityList(){
+    private fun displayCityList() {
         cityViewModel.cities.observe(this, Observer {
-            Log.i("MYTAG",it.toString())
-            binding.cityRecyclerView.adapter = CityAdapter(it,{selectedItem:ManageCities->listItemClicked(selectedItem)})
+            Log.i("MYTAG", it.toString())
+            binding.cityRecyclerView.adapter =
+                CityAdapter(it, { selectedItem: ManageCities -> listItemClicked(selectedItem) })
         })
     }
 
-    private fun listItemClicked(manageCities: eu.tutorials.futureweatherforecast.db.ManageCities){
+    private fun listItemClicked(manageCities: eu.tutorials.futureweatherforecast.db.ManageCities) {
         cityViewModel.initUpdateAndDelete(manageCities)
     }
 }

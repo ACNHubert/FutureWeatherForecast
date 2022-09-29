@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="57dp"
             android:layout_marginStart="@dimen/card_view_marginStartEnd"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="@dimen/zero_margin_top"
             android:layout_marginEnd="@dimen/card_view_marginStartEnd"
             android:background="@android:color/white"
             app:cardBackgroundColor="#80000000"

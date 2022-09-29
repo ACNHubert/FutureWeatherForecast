@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
     private var mLongitude: Double = 0.0
     private lateinit var mSharedPreferences: SharedPreferences
     private lateinit var bindind: ActivityMainBinding
-    internal lateinit var mySwitch : Switch
+    internal lateinit var mySwitch: Switch
 
     companion object {
         var LOCATION = ""
@@ -61,20 +61,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         bindind = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        bindind.futureForecast.setOnClickListener{
-           Constants.LOCATION = bindind.tvName.text.toString()
-             val intent = Intent(this@MainActivity, fiveDaysForecast::class.java)
+        bindind.futureForecast.setOnClickListener {
+            Constants.LOCATION = bindind.tvName.text.toString()
+            val intent = Intent(this@MainActivity, fiveDaysForecast::class.java)
             startActivity(intent)
         }
-        bindind.manageCity.setOnClickListener{
+        bindind.manageCity.setOnClickListener {
             val intent = Intent(this@MainActivity, ManageCities::class.java)
             startActivity(intent)
         }
 
-        bindind.searchButton.setOnClickListener{
+        bindind.searchButton.setOnClickListener {
             Constants.LOCATION = bindind.inputLocation.text.toString()
-            var locationinput : String = bindind.inputLocation.text.toString()
-            if (locationinput == ""){
+            var locationinput: String = bindind.inputLocation.text.toString()
+            if (locationinput == "") {
                 getLocationWeatherDetails()
             } else {
                 getLocationWeather()
@@ -83,17 +83,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         mySwitch = bindind.nightMode as Switch
-        mySwitch.setOnClickListener{
-            if (mySwitch.isChecked){
+        mySwitch.setOnClickListener {
+            if (mySwitch.isChecked) {
                 bindind.MainBG.setBackgroundResource(R.drawable.bgcloudynight)
                 bindind.nightMode.setTextColor(Color.WHITE)
                 bindind.tempText.setTextColor(Color.WHITE)
-                Toast.makeText(this,"Night mode is on",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Night mode is on", Toast.LENGTH_SHORT).show()
             } else {
                 bindind.MainBG.setBackgroundResource(R.drawable.bgmorning)
                 bindind.nightMode.setTextColor(Color.BLACK)
                 bindind.tempText.setTextColor(Color.BLACK)
-                Toast.makeText(this,"Night mode is off",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Night mode is off", Toast.LENGTH_SHORT).show()
             }
         }
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -121,7 +121,7 @@ class MainActivity : AppCompatActivity() {
                     override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
                         if (report!!.areAllPermissionsGranted()) {
                             requestLocationData()
-                     
+
                         }
 
                         if (report.isAnyPermissionPermanentlyDenied) {
@@ -145,9 +145,6 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-
-
-
 
     private fun isLocationEnabled(): Boolean {
         // This provides access to the system location services.
@@ -204,7 +201,7 @@ class MainActivity : AppCompatActivity() {
             val service: WeatherService =
                 retrofit.create<WeatherService>(WeatherService::class.java)
             val listCall: Call<WeatherResponse> = service.getWeather(
-                mLatitude, mLongitude, Constants.METRIC_UNIT,Constants.APP_ID
+                mLatitude, mLongitude, Constants.METRIC_UNIT, Constants.APP_ID
             )
             showCustomProgressDialog()
             listCall.enqueue(object : Callback<WeatherResponse> {
@@ -243,6 +240,7 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 }
+
                 override fun onFailure(t: Throwable) {
                     Log.e("Errorrrrr", t.message.toString())
                     hideProgressDialog()
@@ -266,7 +264,7 @@ class MainActivity : AppCompatActivity() {
             Log.e("Current Latitude", "$mLatitude")
             mLongitude = mLastLocation.longitude
             Log.e("Current Longitude", "$mLongitude")
-            if (LOCATION == ""){
+            if (LOCATION == "") {
                 getLocationWeatherDetails()
             } else {
                 Constants.LOCATION = LOCATION
@@ -311,7 +309,8 @@ class MainActivity : AppCompatActivity() {
 
                 bindind.tvMain.text = weatherList.weather[z].main
                 bindind.tvMainDescription.text = weatherList.weather[z].description
-                bindind.tvTemp.text = weatherList.main.temp.toString() + getUnit(application.resources.configuration.locales.toString())
+                bindind.tvTemp.text =
+                    weatherList.main.temp.toString() + getUnit(application.resources.configuration.locales.toString())
                 bindind.tvHumidity.text = weatherList.main.humidity.toString() + " per cent"
                 bindind.tvMin.text = weatherList.main.temp_min.toString() + " min"
                 bindind.tvMax.text = weatherList.main.temp_max.toString() + " max"
@@ -320,7 +319,8 @@ class MainActivity : AppCompatActivity() {
                 bindind.tvCountry.text = weatherList.sys.country
                 bindind.tvSunriseTime.text = unixTime(weatherList.sys.sunrise.toLong()) + " AM"
                 bindind.tvSunsetTime.text = unixTime(weatherList.sys.sunset.toLong()) + " PM"
-                bindind.tempText.text = weatherList.main.temp.toString() + getUnit(application.resources.configuration.locales.toString())
+                bindind.tempText.text =
+                    weatherList.main.temp.toString() + getUnit(application.resources.configuration.locales.toString())
 
 
                 // Here we update the main icon
@@ -368,7 +368,7 @@ class MainActivity : AppCompatActivity() {
         return sdf.format(date)
     }
 
-     fun getLocationWeather() {
+    fun getLocationWeather() {
         if (Constants.isNetworkAvailable(this@MainActivity)) {
             val retrofit: Retrofit = Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
@@ -378,7 +378,7 @@ class MainActivity : AppCompatActivity() {
             val service: WeatherService =
                 retrofit.create<WeatherService>(WeatherService::class.java)
             val listCall: Call<WeatherResponse> = service.getLocationWeather(
-                mLatitude, mLongitude, Constants.METRIC_UNIT,Constants.LOCATION,Constants.APP_ID
+                mLatitude, mLongitude, Constants.METRIC_UNIT, Constants.LOCATION, Constants.APP_ID
             )
             showCustomProgressDialog()
             listCall.enqueue(object : Callback<WeatherResponse> {
@@ -400,17 +400,7 @@ class MainActivity : AppCompatActivity() {
 
                         editor.putString(Constants.WEATHER_RESPONSE_DATA, weatherResponseJsonString)
                         editor.apply()
-
-//                        var location : String = weatherList.sys.country
-//                        if (location == "PH") {
-                            setupUI()
-//                        } else {
-//                            Toast.makeText(
-//                                this@MainActivity,
-//                                "Invalid City",
-//                                Toast.LENGTH_LONG
-//                            ).show()
-//                        }
+                        setupUI()
 
                     } else {
                         val sc = response.code()
@@ -438,6 +428,7 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 }
+
                 override fun onFailure(t: Throwable) {
                     Log.e("Errorrrrr", t.message.toString())
                     hideProgressDialog()
@@ -451,7 +442,6 @@ class MainActivity : AppCompatActivity() {
             ).show()
         }
     }
-
 
 
 } //End
