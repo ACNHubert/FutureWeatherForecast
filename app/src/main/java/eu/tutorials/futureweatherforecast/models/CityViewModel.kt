@@ -1,11 +1,18 @@
 package eu.tutorials.futureweatherforecast.models
 
-
+import android.content.Intent
+import android.content.Intent.EXTRA_INTENT
+import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
+import androidx.databinding.Bindable
 import androidx.lifecycle.*
+import eu.tutorials.futureweatherforecast.activity.MainActivity
+import eu.tutorials.futureweatherforecast.databinding.ActivityMainBinding
 import eu.tutorials.futureweatherforecast.db.CityRepository
 import eu.tutorials.futureweatherforecast.db.ManageCities
+import eu.tutorials.futureweatherforecast.utils.Constants
+import eu.tutorials.futureweatherforecast.utils.Event
 import kotlinx.coroutines.launch
-
 import kotlinx.coroutines.withContext
 
 class CityViewModel (private val repository: CityRepository) : ViewModel(){
