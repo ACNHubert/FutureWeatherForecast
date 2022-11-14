@@ -41,6 +41,7 @@ import eu.tutorials.futureweatherforecast.network.WeatherService
 import eu.tutorials.futureweatherforecast.utils.Constants
 import retrofit.*
 import java.util.*
+import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity() {
 
@@ -51,6 +52,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mSharedPreferences: SharedPreferences
     private lateinit var bindind: ActivityMainBinding
     internal lateinit var mySwitch: Switch
+    internal lateinit var CtoF : Switch
+    var farTemp : Double = 0.0
 
     companion object {
         var LOCATION = ""
@@ -94,6 +97,31 @@ class MainActivity : AppCompatActivity() {
                 bindind.nightMode.setTextColor(Color.BLACK)
                 bindind.tempText.setTextColor(Color.BLACK)
                 Toast.makeText(this, "Night mode is off", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        CtoF = bindind.CtoF as Switch
+        CtoF.setOnClickListener {
+            if (CtoF.isChecked) {
+                Constants.TemperatureScale = "F"
+                var locationinput: String = bindind.inputLocation.text.toString()
+                if (locationinput == "") {
+                    getLocationWeatherDetails()
+                } else {
+                    getLocationWeather()
+                }
+                bindind.CtoF.text = "Celcius"
+                Toast.makeText(this, "Temperature converted to Farenheit", Toast.LENGTH_SHORT).show()
+            } else {
+                Constants.TemperatureScale = "C"
+                var locationinput: String = bindind.inputLocation.text.toString()
+                if (locationinput == "") {
+                    getLocationWeatherDetails()
+                } else {
+                    getLocationWeather()
+                }
+                bindind.CtoF.text = "Farenheit"
+                Toast.makeText(this, "Temperature converted to Celcius", Toast.LENGTH_SHORT).show()
             }
         }
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -309,9 +337,7 @@ class MainActivity : AppCompatActivity() {
 
                 bindind.tvMain.text = weatherList.weather[z].main
                 bindind.tvMainDescription.text = weatherList.weather[z].description
-                bindind.tvTemp.text =
-                    weatherList.main.temp.toString() + getUnit(application.resources.configuration.locales.toString())
-                bindind.tvHumidity.text = weatherList.main.humidity.toString() + " per cent"
+               bindind.tvHumidity.text = weatherList.main.humidity.toString() + " per cent"
                 bindind.tvMin.text = weatherList.main.temp_min.toString() + " min"
                 bindind.tvMax.text = weatherList.main.temp_max.toString() + " max"
                 bindind.tvSpeed.text = weatherList.wind.speed.toString()
@@ -319,8 +345,23 @@ class MainActivity : AppCompatActivity() {
                 bindind.tvCountry.text = weatherList.sys.country
                 bindind.tvSunriseTime.text = unixTime(weatherList.sys.sunrise.toLong()) + " AM"
                 bindind.tvSunsetTime.text = unixTime(weatherList.sys.sunset.toLong()) + " PM"
-                bindind.tempText.text =
-                    weatherList.main.temp.toString() + getUnit(application.resources.configuration.locales.toString())
+
+                if (Constants.TemperatureScale == "C") {
+                    bindind.tvTemp.text =
+                        weatherList.main.temp.toString() + getUnit(application.resources.configuration.locales.toString())
+                    bindind.tempText.text =
+                        weatherList.main.temp.toString() + getUnit(application.resources.configuration.locales.toString())
+                } else if (Constants.TemperatureScale == "F") {
+                    farTemp =  weatherList.main.temp
+                    farTemp = farTemp * 1.8
+                    farTemp = farTemp + 32
+                    val roundoff = (farTemp * 100.0 ).roundToInt() / 100.0
+                    bindind.tvTemp.text = "$roundoff \u2109"
+                    bindind.tempText.text = "$roundoff \u2109"
+                }
+
+
+
 
 
                 // Here we update the main icon

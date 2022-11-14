@@ -31,6 +31,7 @@ import eu.tutorials.futureweatherforecast.network.WeatherService
 import eu.tutorials.futureweatherforecast.utils.Constants
 import retrofit.*
 import java.util.*
+import kotlin.math.roundToInt
 
 
 class fiveDaysForecast : AppCompatActivity() {
@@ -41,6 +42,12 @@ class fiveDaysForecast : AppCompatActivity() {
     private var mLongitude: Double = 0.0
 
     private lateinit var bindind: ActivityFiveDaysForecastBinding
+
+    var farTemp1 : Double = 0.0
+    var farTemp2 : Double = 0.0
+    var farTemp3 : Double = 0.0
+    var farTemp4 : Double = 0.0
+    var farTemp5 : Double = 0.0
 
 
 
@@ -133,12 +140,43 @@ class fiveDaysForecast : AppCompatActivity() {
             // For loop to get the required data. And all are populated in the UI.
             for (z in weatherList.list.indices) {
                 bindind.textLocation.text = weatherList.city.name
-                bindind.tempText1.text = weatherList.list[0].main.temp.toString() + getUnit(application.resources.configuration.locales.toString())
-                bindind.tempText2.text = weatherList.list[8].main.temp.toString() + getUnit(application.resources.configuration.locales.toString())
-                bindind.tempText3.text = weatherList.list[16].main.temp.toString() + getUnit(application.resources.configuration.locales.toString())
-                bindind.tempText4.text = weatherList.list[24].main.temp.toString() + getUnit(application.resources.configuration.locales.toString())
-                bindind.tempText5.text = weatherList.list[32].main.temp.toString() + getUnit(application.resources.configuration.locales.toString())
+                   if (Constants.TemperatureScale == "C") {
+                       bindind.tempText1.text = weatherList.list[0].main.temp.toString() + getUnit(application.resources.configuration.locales.toString())
+                       bindind.tempText2.text = weatherList.list[8].main.temp.toString() + getUnit(application.resources.configuration.locales.toString())
+                       bindind.tempText3.text = weatherList.list[16].main.temp.toString() + getUnit(application.resources.configuration.locales.toString())
+                       bindind.tempText4.text = weatherList.list[24].main.temp.toString() + getUnit(application.resources.configuration.locales.toString())
+                       bindind.tempText5.text = weatherList.list[32].main.temp.toString() + getUnit(application.resources.configuration.locales.toString())
+                   } else if (Constants.TemperatureScale == "F") {
+                    farTemp1 =  weatherList.list[0].main.temp
+                    farTemp1 = farTemp1 * 1.8
+                    farTemp1 = farTemp1 + 32
+                       val roundoff1 = (farTemp1 * 100.0 ).roundToInt() / 100.0
+                       bindind.tempText1.text = "$roundoff1 \u2109"
 
+                       farTemp2 =  weatherList.list[8].main.temp
+                       farTemp2 = farTemp2 * 1.8
+                       farTemp2 = farTemp2 + 32
+                       val roundoff2 = (farTemp2 * 100.0 ).roundToInt() / 100.0
+                       bindind.tempText2.text = "$roundoff2 \u2109"
+
+                       farTemp3 =  weatherList.list[16].main.temp
+                       farTemp3 = farTemp3 * 1.8
+                       farTemp3 = farTemp3 + 32
+                       val roundoff3 = (farTemp3 * 100.0 ).roundToInt() / 100.0
+                       bindind.tempText3.text = "$roundoff3 \u2109"
+
+                       farTemp4 =  weatherList.list[24].main.temp
+                       farTemp4 = farTemp4 * 1.8
+                       farTemp4 = farTemp4 + 32
+                       val roundoff4 = (farTemp4 * 100.0 ).roundToInt() / 100.0
+                       bindind.tempText4.text = "$roundoff4 \u2109"
+
+                       farTemp5 =  weatherList.list[32].main.temp
+                       farTemp5 = farTemp5 * 1.8
+                       farTemp5 = farTemp5 + 32
+                       val roundoff5 = (farTemp5 * 100.0 ).roundToInt() / 100.0
+                       bindind.tempText5.text = "$roundoff5 \u2109"
+                }
                 bindind.tempDate1.text = weatherList.list[0].dt_txt
                 bindind.tempDate2.text = weatherList.list[8].dt_txt
                 bindind.tempDate3.text = weatherList.list[16].dt_txt

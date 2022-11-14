@@ -10,6 +10,7 @@ object Constants {
     const val BASE_URL: String = "http://api.openweathermap.org/data/"
     const val METRIC_UNIT: String = "metric"
     var LOCATION : String = ""
+    var TemperatureScale : String = "C"
 
 
     const val PREFERENCE_NAME = "WeatherAppPreference"
