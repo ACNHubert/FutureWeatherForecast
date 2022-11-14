@@ -34,16 +34,26 @@ class ManageCities : AppCompatActivity() {
         binding.lifecycleOwner = this
         initRecyclerView()
 
+<<<<<<< HEAD
         binding.viewData.setOnClickListener() {
             MainActivity.LOCATION = binding.nameText.text.toString()
+=======
+        binding.viewData.setOnClickListener(){
+            Constants.LOCATION = binding.nameText.text.toString()
+
+>>>>>>> 584cea831f73f803de916498d486698d845a136e
             val intent = Intent(this@ManageCities, MainActivity::class.java)
             startActivity(intent)
         }
 
     }
 
+<<<<<<< HEAD
 
     private fun initRecyclerView() {
+=======
+    private fun initRecyclerView(){
+>>>>>>> 584cea831f73f803de916498d486698d845a136e
         binding.cityRecyclerView.layoutManager = LinearLayoutManager(this)
         displayCityList()
     }

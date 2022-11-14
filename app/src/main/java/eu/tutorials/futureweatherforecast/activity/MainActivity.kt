@@ -55,9 +55,6 @@ class MainActivity : AppCompatActivity() {
     internal lateinit var CtoF : Switch
     var farTemp : Double = 0.0
 
-    companion object {
-        var LOCATION = ""
-    }
 
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -65,9 +62,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         bindind = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+<<<<<<< HEAD
         bindind.futureForecast.setOnClickListener {
             Constants.LOCATION = bindind.tvName.text.toString()
             val intent = Intent(this@MainActivity, fiveDaysForecast::class.java)
+=======
+
+
+
+        bindind.futureForecast.setOnClickListener{
+           Constants.LOCATION = bindind.tvName.text.toString()
+             val intent = Intent(this@MainActivity, fiveDaysForecast::class.java)
+>>>>>>> 584cea831f73f803de916498d486698d845a136e
             startActivity(intent)
         }
         bindind.manageCity.setOnClickListener {
@@ -370,12 +376,17 @@ class MainActivity : AppCompatActivity() {
             Log.e("Current Latitude", "$mLatitude")
             mLongitude = mLastLocation.longitude
             Log.e("Current Longitude", "$mLongitude")
+<<<<<<< HEAD
             if (LOCATION == "") {
                 getLocationWeatherDetails()
             } else {
                 Constants.LOCATION = LOCATION
                 getLocationWeather()
             }
+=======
+
+            getLocationWeatherDetails()
+>>>>>>> 584cea831f73f803de916498d486698d845a136e
         }
     }
 
@@ -487,6 +498,87 @@ class MainActivity : AppCompatActivity() {
         return sdf.format(date)
     }
 
+<<<<<<< HEAD
+=======
+    fun getLocationWeather() {
+        if (Constants.isNetworkAvailable(this@MainActivity)) {
+            val retrofit: Retrofit = Retrofit.Builder()
+                .baseUrl(Constants.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            val service: WeatherService =
+                retrofit.create<WeatherService>(WeatherService::class.java)
+            val listCall: Call<WeatherResponse> = service.getLocationWeather(
+                mLatitude, mLongitude, Constants.METRIC_UNIT,Constants.LOCATION,Constants.APP_ID
+            )
+            showCustomProgressDialog()
+            listCall.enqueue(object : Callback<WeatherResponse> {
+                @RequiresApi(Build.VERSION_CODES.N)
+                @SuppressLint("SetTextI18n")
+                override fun onResponse(
+                    response: Response<WeatherResponse>,
+                    retrofit: Retrofit
+                ) {
+
+                    if (response.isSuccess) {
+                        hideProgressDialog()
+
+                        val weatherList: WeatherResponse = response.body()
+                        Log.i("Response Result", "$weatherList")
+
+                        val weatherResponseJsonString = Gson().toJson(weatherList)
+                        val editor = mSharedPreferences.edit()
+
+                        editor.putString(Constants.WEATHER_RESPONSE_DATA, weatherResponseJsonString)
+                        editor.apply()
+
+                        var location : String = weatherList.sys.country
+                        if (location == "PH") {
+                            setupUI()
+                        } else {
+                            Toast.makeText(
+                                this@MainActivity,
+                                "Invalid City",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+
+                    } else {
+                        val sc = response.code()
+                        hideProgressDialog()
+                        when (sc) {
+                            400 -> {
+                                Log.e("Error 400", "Bad Request")
+                            }
+                            404 -> {
+                                Log.e("Error 404", "Not Found")
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    "Invalid City",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                            else -> {
+                                Log.e("Error", "Generic Error")
+                            }
+                        }
+                    }
+                }
+                override fun onFailure(t: Throwable) {
+                    Log.e("Errorrrrr", t.message.toString())
+                    hideProgressDialog()
+                }
+            })
+        } else {
+            Toast.makeText(
+                this@MainActivity,
+                "No internet connection available.",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+>>>>>>> 584cea831f73f803de916498d486698d845a136e
 
 
 
