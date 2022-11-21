@@ -24,7 +24,7 @@
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
-            android:name=".activity.fiveDaysForecast"
+            android:name=".activity.FiveDaysForecast"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity

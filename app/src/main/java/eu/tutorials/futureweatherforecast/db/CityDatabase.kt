@@ -7,9 +7,7 @@ import androidx.room.RoomDatabase
 
 @Database(entities = [ManageCities::class], version = 1)
 abstract class CityDatabase : RoomDatabase() {
-
     abstract val cityDAO : CityDAO
-
     companion object{
         @Volatile
         private var INSTANCE : CityDatabase? = null
@@ -28,6 +26,5 @@ abstract class CityDatabase : RoomDatabase() {
                 return instance
             }
         }
-
     }
 }

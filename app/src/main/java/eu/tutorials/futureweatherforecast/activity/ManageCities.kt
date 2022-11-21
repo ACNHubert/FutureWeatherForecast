@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -34,26 +33,19 @@ class ManageCities : AppCompatActivity() {
         binding.lifecycleOwner = this
         initRecyclerView()
 
-<<<<<<< HEAD
+
         binding.viewData.setOnClickListener() {
-            MainActivity.LOCATION = binding.nameText.text.toString()
-=======
-        binding.viewData.setOnClickListener(){
-            Constants.LOCATION = binding.nameText.text.toString()
+            MainActivity.savedLocation = binding.nameText.text.toString()
 
->>>>>>> 584cea831f73f803de916498d486698d845a136e
-            val intent = Intent(this@ManageCities, MainActivity::class.java)
-            startActivity(intent)
+           // binding.viewData.setOnClickListener() {
+                Constants.LOCATION = binding.nameText.text.toString()
+                val intent = Intent(this@ManageCities, MainActivity::class.java)
+                startActivity(intent)
+           // }
         }
-
     }
 
-<<<<<<< HEAD
-
-    private fun initRecyclerView() {
-=======
-    private fun initRecyclerView(){
->>>>>>> 584cea831f73f803de916498d486698d845a136e
+    fun initRecyclerView(){
         binding.cityRecyclerView.layoutManager = LinearLayoutManager(this)
         displayCityList()
     }
@@ -71,3 +63,6 @@ class ManageCities : AppCompatActivity() {
         cityViewModel.initUpdateAndDelete(manageCities)
     }
 }
+
+
+
