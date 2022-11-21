@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/defaultLocation"
+        android:title="Default Location"
+        android:icon="@drawable/ic_defaultlocation"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/Theme"
+        android:title="Theme"
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/Lightmode"
+                android:title="Light mode"
+                app:showAsAction="never"/>
+
+            <item
+                android:id="@+id/Darkmode"
+                android:title="Dark mode"
+                app:showAsAction="never"/>
+
+        </menu>
+
+    </item>
+    <item
+        android:id="@+id/Temperature"
+        android:title="Temperature"
+        app:showAsAction="never">
+
+        <menu>
+            <item
+                android:id="@+id/Celcius"
+                android:title="Celcius"
+                app:showAsAction="never"/>
+
+            <item
+                android:id="@+id/Farenheit"
+                android:title="Farenheit"
+                app:showAsAction="never"/>
+
+        </menu>
+
+    </item>
+
+</menu>
